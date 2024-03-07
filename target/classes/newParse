@@ -1,0 +1,24 @@
+program = function_definition*
+function_definition = type_specification identifier "(" formal_parameters? ")" block
+formal_parameters = formal_parameter ("," formal_parameter)*
+formal_parameter = type_specification identifier
+type_specification = "int" | "bool"
+block = "{" compound_statement "}"
+compound_statement = (variable_declaration | statement)*
+statement = expression-statement
+            | "return" expression-statement
+            | block
+            | "if" "(" expression ")" statement ("else" statement)?
+            | "while" "(" expression ")" statement
+variable_declaration = type_specification identifier ("," identifier)* ";"
+                      | type_specification identifier "[" num "]" ("=" "{" (num)? ("," num)* "}")?
+expression-statement = expression? ";"
+expression = logic ("=" expression)?
+logic = equality ("&&" equality | "||" equality)*
+equality = relational ("==" relational | "! =" relational)*
+relational = add_sub ("<" add_sub | "<=" add_sub | ">" add_sub | ">=" add_sub)*
+add_sub = mul_div ("+" mul_div | "-" mul_div)*
+mul_div = unary ("*" unary | "/" unary)*
+unary = unary = ("+" | "-" | "!") unary | primary
+primary = "(" expression ")" | identifier args?| num | identifier "[" expression "]"
+args = "(" (expression ("," expression)*)? ")"
